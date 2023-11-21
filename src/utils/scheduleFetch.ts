@@ -9,6 +9,7 @@ interface IFetchAndHandleScheduleResult {
   schedule: Lecture[];
   updated: boolean;
   lastScheduleFetch: string;
+  groups: string[];
 }
 
 export async function scheduleFetch(props: RouterProps): Promise<IFetchAndHandleScheduleResult> {
@@ -22,9 +23,10 @@ export async function scheduleFetch(props: RouterProps): Promise<IFetchAndHandle
     const minutes = Math.floor(diff / 1000 / 60);
     if (minutes < 45) {
       const schedule = await STORAGE.get('schedule');
-      if (schedule) {
+      const groups = await STORAGE.get('groups');
+      if (schedule && groups) {
         const cachedSchedule = scheduleUnminify(JSON.parse(schedule));
-        return {schedule: cachedSchedule, updated: false, lastScheduleFetch: lastScheduleFetch};
+        return {schedule: cachedSchedule, groups: JSON.parse(groups), updated: false, lastScheduleFetch: lastScheduleFetch};
       }
     }
   }
@@ -39,5 +41,15 @@ export async function scheduleFetch(props: RouterProps): Promise<IFetchAndHandle
   const now = new Date().toISOString();
   await STORAGE.put('lastScheduleFetch', now);
 
-  return {schedule: schedule, updated: true, lastScheduleFetch: now};
+  const groups: string[] = [];
+  schedule.forEach((lecture) => {
+    lecture.groups.forEach((group) => {
+      if (!groups.includes(group)) {
+        groups.push(group);
+      }
+    });
+  });
+  await STORAGE.put('groups', JSON.stringify(groups));
+
+  return {schedule: schedule, groups: groups, updated: true, lastScheduleFetch: now};
 }
