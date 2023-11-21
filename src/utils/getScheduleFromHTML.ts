@@ -31,7 +31,9 @@ function getScheduleFromHTML(input: string): Lecture[] {
     const getTableData = (input: string): TableData[] => {
         const rows = input.split('<tr>').slice(1);
         return rows.map(row => {
-            const columns = row.split('<td>').slice(1, -1).map(column => column.replace('</td>', '').trim());
+            const a = row.split('<td>');
+                  a.shift();
+            const columns = a.map(column => column.replace('</td>', '').replace('</tr>', '').trim());
             const courses = columns[4].split('<br>');
             if(courses.length === 1 && courses[0] === '') courses.pop();
             return [
@@ -43,7 +45,7 @@ function getScheduleFromHTML(input: string): Lecture[] {
                 columns[5],
                 columns[6],
                 columns[7],
-                columns[8] ?? "",
+                columns[8],
             ];
         });
     };
