@@ -3,7 +3,7 @@ export interface Lecture {
   time: string;
   class: string;
   room: string;
-  group: string;
+  groups: string[];
   lecturer: string;
   subject: string;
   type: string;
