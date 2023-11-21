@@ -437,6 +437,21 @@ describe('getTableFromHTML', () => {
                 comment: '',
             },
         );
+
+        expect(result[11]).toEqual(
+            {
+                date: '21.11.2023',
+                time: '8:45-10:15',
+                class: '1',
+                room: '',
+                groups: ["1203MDA", "1103-2MDA"],
+                lecturer: 'Gromovs Genadijs',
+                subject: 'Practice of Organizing Transportation (Specialization by Type of Transport)',
+                type: 'Lesson',
+                comment: 'online',
+            },
+        );
+
     });
 
     // Add more test cases as needed for different scenarios
