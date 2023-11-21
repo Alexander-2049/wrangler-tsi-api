@@ -1,9 +1,9 @@
 import { IRequest } from "itty-router";
 import { RouterProps } from "../types/RouterProps";
+import { scheduleFetch } from "../utils/scheduleFetch";
 
 export default async function fetchController(request: IRequest, props: RouterProps) {
-  const api = props.api;
-  const result = await api.fetchSchedule();
+  const { updated, lastScheduleFetch } = await scheduleFetch(props);
 
-  return new Response(await result.text(), { status: 200, headers: { 'Content-Type': 'text/html' } });
+  return new Response(JSON.stringify({ updated, lastScheduleFetch }), { status: 200, headers: { 'Content-Type': 'application/json' } });
 }
