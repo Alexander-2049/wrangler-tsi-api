@@ -7,15 +7,29 @@ export default class API {
 
   async fetchSchedule() {
     const today = new Date();
-    const dt1 = today.getDate();
-    const mn1 = today.getMonth() + 1;
-    const yr1 = today.getFullYear();
-
-    const yearForward = new Date();
-    yearForward.setFullYear(today.getFullYear() + 1);
-    const dt2 = yearForward.getDate();
-    const mn2 = yearForward.getMonth() + 1;
-    const yr2 = yearForward.getFullYear();
+    // const currentMonth = today.getMonth() + 1;
+    const currentYear = today.getFullYear();
+    
+    // Set the start date of the study year (September 1st)
+    const studyYearStart = new Date(currentYear, 7, 15); // Month is 0-based in JavaScript, so 7 represents August
+    
+    // If the current date is before the study year starts, adjust the year
+    if (today < studyYearStart) {
+      studyYearStart.setFullYear(currentYear - 1);
+    }
+    
+    const dt1 = 1;
+    const mn1 = 9;
+    const yr1 = studyYearStart.getFullYear();
+    
+    // Set the end date of the study year (August 31st of the next year)
+    const studyYearEnd = new Date(studyYearStart);
+    studyYearEnd.setFullYear(studyYearStart.getFullYear() + 1);
+    studyYearEnd.setMonth(7); // 7 represents August
+    
+    const dt2 = 14;
+    const mn2 = 8;
+    const yr2 = studyYearEnd.getFullYear();
 
     const idStudentGroup = "";
     const idLecturer = "";
