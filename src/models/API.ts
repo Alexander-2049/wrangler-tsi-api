@@ -5,7 +5,7 @@ export default class API {
     this.base54 = btoa(`${login}:${password}`);
   }
 
-  fetchSchedule() {
+  async fetchSchedule() {
     const today = new Date();
     const dt1 = today.getDate();
     const mn1 = today.getMonth() + 1;
@@ -34,7 +34,7 @@ export default class API {
       "name=\"idApartment\"\r\n\r\n" + idApartment + "\r\n------WebKitFormBoundaryOGmPo29ezAImOwtE--\r\n",
     ];
 
-    return fetch("https://intra.tsi.lv/root/StudentsDatabase1/?page=4&Lang=en", {
+    const response = await fetch("https://intra.tsi.lv/root/StudentsDatabase1/?page=4&Lang=en", {
       "method": "POST",
       headers: {
         "Authorization": `Basic ${this.base54}`,
@@ -42,5 +42,14 @@ export default class API {
       },
       "body": body.join(""),
     });
+
+    if(response.status !== 200) {
+      if(response.status === 401) {
+        throw new Error("Unauthorized");
+      }
+      throw new Error("Unknown error");
+    }
+
+    return response;
   }
 }
