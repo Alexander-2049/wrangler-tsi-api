@@ -78,4 +78,38 @@ export default class Changes {
     return changes;
   }
 
+  static findChangesForAllGroups(previousSchedule: Lecture[], currentSchedule: Lecture[]) {
+    const changes: ChangesType[] = [];
+    const groupsMap = this.getGroupsMap(currentSchedule);
+    const previousGroupsMap = this.getGroupsMap(previousSchedule);
+
+    groupsMap.forEach((lectures, group) => {
+      const previousLectures = previousGroupsMap.get(group);
+      const changesForGroup = this.findChanges(previousLectures || [], lectures);
+      if(changesForGroup.length > 0) {
+        changes.push({
+          timestame: new Date().toISOString(),
+          groups: [{
+            group: group,
+            changes: changesForGroup,
+          }],
+        });
+      }
+    });
+
+    return changes;
+  }
+
+  static getGroupsMap(schedule: Lecture[]): Map<string, Lecture[]> {
+    const groupsMap: Map<string, Lecture[]> = new Map();
+    schedule.forEach((lecture) => {
+      lecture.groups.forEach((group) => {
+        if(!groupsMap.has(group)) {
+          groupsMap.set(group, []);
+        }
+        groupsMap.get(group)?.push(lecture);
+      });
+    });
+    return groupsMap;
+  }
 }
