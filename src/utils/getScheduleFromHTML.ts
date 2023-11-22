@@ -51,14 +51,14 @@ function getScheduleFromHTML(input: string): Lecture[] {
     };
 
     const formatTableData = (input: TableData[]): Lecture[] => input.map(row => {
-        const [date, id, time, room, groups, lecturer, subject, type, comment] = row;
+        const [date, id, time, room, groups, teacher, subject, type, comment] = row;
         return {
             date,
             time,
             class: id,
             room,
             groups,
-            lecturer,
+            teacher,
             subject,
             type,
             comment,
