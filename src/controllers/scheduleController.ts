@@ -2,6 +2,7 @@ import { IRequest } from "itty-router";
 import { RouterProps } from "../types/RouterProps";
 import { scheduleFetch } from "../utils/scheduleFetch";
 import getDate from "../utils/getDate";
+import Schedule from "../models/Schedule";
 
 export default async function scheduleController(request: IRequest, props: RouterProps) {
   const { schedule } = await scheduleFetch(props);
@@ -13,26 +14,12 @@ export default async function scheduleController(request: IRequest, props: Route
     result = schedule.filter((item) => item.groups.includes(group));
   }
 
-  const from = typeof request.query.from === 'string' ? getDate(request.query.from) : undefined;
-  const to = typeof request.query.to === 'string' ? getDate(request.query.to) : undefined;
+  const from = typeof request.query.from === 'string' ? Schedule.getDate(request.query.from) : undefined;
+  const to = typeof request.query.to === 'string' ? Schedule.getDate(request.query.to) : undefined;
 
-  if(from) {
-    result = result.filter((item) => {
-      const date = getDate(item.date);
-      if(!date) return false;
-      if(date >= from) return true;
-      if(date < from) return false;
-    });
-  }
-
-  if(to) {
-    result = result.filter((item) => {
-      const date = getDate(item.date);
-      if(!date) return false;
-      if(date <= to) return true;
-      if(date > to) return false;
-    });
-  }
+  if(from && to) result = Schedule.filterByDate(result, from, to);
+  else if(from) result = Schedule.filterByDate(result, from);
+  else if(to) result = Schedule.filterByDate(result, undefined, to);
 
   return new Response(JSON.stringify(result), { status: 200, headers: { 'Content-Type': 'application/json' } });
 }
