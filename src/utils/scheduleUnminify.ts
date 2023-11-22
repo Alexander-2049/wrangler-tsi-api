@@ -1,4 +1,6 @@
-export default function scheduleUnminify(schedule: any[]) {
+import { Lecture } from "../types/Lecture";
+
+export default function scheduleUnminify(schedule: any[]): Lecture[] {
   return schedule.map(lecture => {
     return {
       date: lecture[0],
@@ -6,7 +8,7 @@ export default function scheduleUnminify(schedule: any[]) {
       class: lecture[2],
       room: lecture[3],
       groups: lecture[4],
-      lecturer: lecture[5],
+      teacher: lecture[5],
       subject: lecture[6],
       type: lecture[7],
       comment: lecture[8]

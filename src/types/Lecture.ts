@@ -4,7 +4,7 @@ export interface Lecture {
   class: string;
   room: string;
   groups: string[];
-  lecturer: string;
+  teacher: string;
   subject: string;
   type: string;
   comment: string;
