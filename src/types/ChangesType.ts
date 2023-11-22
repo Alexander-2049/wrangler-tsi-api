@@ -1,7 +1,7 @@
 import { Lecture } from "./Lecture";
 
 export interface ChangesType {
-  timestame: string;
+  timestamp: string;
   groups: ChangesGroups[];
 }
 
