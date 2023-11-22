@@ -1,6 +1,6 @@
 import { Lecture } from "./Lecture";
 
-export interface Changes {
+export interface ChangesType {
   timestame: string;
   groups: ChangesGroups[];
 }
