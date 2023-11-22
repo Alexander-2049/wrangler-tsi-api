@@ -1,7 +1,6 @@
 import { IRequest } from "itty-router";
 import { RouterProps } from "../types/RouterProps";
 import { scheduleFetch } from "../utils/scheduleFetch";
-import getDate from "../utils/getDate";
 import Schedule from "../models/Schedule";
 
 export default async function scheduleController(request: IRequest, props: RouterProps) {
