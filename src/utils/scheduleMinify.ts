@@ -8,7 +8,7 @@ export default function scheduleMinify(schedule: Lecture[]) {
       lecture.class,
       lecture.room,
       lecture.groups,
-      lecture.lecturer,
+      lecture.teacher,
       lecture.subject,
       lecture.type,
       lecture.comment
