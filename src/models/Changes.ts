@@ -86,7 +86,7 @@ export default class Changes {
       const changesForGroup = this.findChanges(previousLectures || [], lectures);
       if(changesForGroup.length > 0) {
         changes.push({
-          timestame: new Date().toISOString(),
+          timestamp: new Date().toISOString(),
           groups: [{
             group: group,
             changes: changesForGroup,
