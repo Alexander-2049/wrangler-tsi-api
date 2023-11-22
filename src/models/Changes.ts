@@ -56,9 +56,7 @@ export default class Changes {
           lectureBefore: lecture,
           lectureAfter: currentLecture,
         });
-      }
-
-      if(currentLecture && JSON.stringify(currentLecture.groups) !== JSON.stringify(lecture.groups)) {
+      } else if(currentLecture && JSON.stringify(currentLecture.groups) !== JSON.stringify(lecture.groups)) {
         changes.push({
           lectureBefore: lecture,
           lectureAfter: currentLecture,
