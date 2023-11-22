@@ -2,7 +2,7 @@ import { describe, it, expect } from '@jest/globals';
 import Schedule from '../models/Schedule';
 const { getDate } = Schedule;
 
-describe('getDate', () => {
+describe('Schedule.getDate', () => {
   
   it('should return null if input is invalid', () => {
     expect(getDate('')).toBeNull();
