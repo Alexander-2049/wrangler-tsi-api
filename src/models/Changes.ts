@@ -3,18 +3,10 @@ import { Lecture } from "../types/Lecture";
 
 export default class Changes {
 
-  static async getChanges(STORAGE: KVNamespace) {
-    const changes = await this.getChangesFromStorage(STORAGE);
-    if(!changes) {
-      return [];
-    }
-    return changes;
-  }
-
-  static async getChangesFromStorage(STORAGE: KVNamespace) {
+  static async getChanges(STORAGE: KVNamespace): Promise<ChangesType[]> {
     const changes = await STORAGE.get('changes');
     if(!changes) {
-      return null;
+      return [];
     }
     return JSON.parse(changes);
   }
@@ -76,8 +68,11 @@ export default class Changes {
     return changes;
   }
 
-  static findChangesForAllGroups(previousSchedule: Lecture[], currentSchedule: Lecture[]) {
-    const changes: ChangesType[] = [];
+  static findChangesForAllGroups(previousSchedule: Lecture[], currentSchedule: Lecture[]): ChangesType {
+    const changes: ChangesType = {
+      timestamp: new Date().toISOString(),
+      groups: [],
+    };
     const groupsMap = this.getGroupsMap(currentSchedule);
     const previousGroupsMap = this.getGroupsMap(previousSchedule);
 
@@ -85,12 +80,9 @@ export default class Changes {
       const previousLectures = previousGroupsMap.get(group);
       const changesForGroup = this.findChanges(previousLectures || [], lectures);
       if(changesForGroup.length > 0) {
-        changes.push({
-          timestamp: new Date().toISOString(),
-          groups: [{
+        changes.groups.push({
             group: group,
             changes: changesForGroup,
-          }],
         });
       }
     });
