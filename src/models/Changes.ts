@@ -33,7 +33,7 @@ export default class Changes {
       const key = `${lecture.date}-${lecture.time}`;
       currentScheduleMap.set(key, lecture);
     });
-
+    
     previousScheduleMap.forEach((lecture, key) => {
       if(!currentScheduleMap.has(key)) {
         changes.push({
@@ -49,6 +49,31 @@ export default class Changes {
           lectureAfter: currentLecture,
         });
       } else if(currentLecture && JSON.stringify(currentLecture.groups) !== JSON.stringify(lecture.groups)) {
+        changes.push({
+          lectureBefore: lecture,
+          lectureAfter: currentLecture,
+        });
+      } else if(currentLecture && currentLecture.teacher !== lecture.teacher) {
+        changes.push({
+          lectureBefore: lecture,
+          lectureAfter: currentLecture,
+        });
+      } else if(currentLecture && currentLecture.subject !== lecture.subject) {
+        changes.push({
+          lectureBefore: lecture,
+          lectureAfter: currentLecture,
+        });
+      } else if(currentLecture && currentLecture.room !== lecture.room) {
+        changes.push({
+          lectureBefore: lecture,
+          lectureAfter: currentLecture,
+        });
+      } else if(currentLecture && currentLecture.type !== lecture.type) {
+        changes.push({
+          lectureBefore: lecture,
+          lectureAfter: currentLecture,
+        });
+      } else if(currentLecture && currentLecture.comment !== lecture.comment) {
         changes.push({
           lectureBefore: lecture,
           lectureAfter: currentLecture,
